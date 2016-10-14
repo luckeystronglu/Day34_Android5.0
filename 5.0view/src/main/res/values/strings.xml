@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">5.0View</string>
+
+    <array name="menu">
+        <item>菜单1</item>
+        <item>菜单2</item>
+        <item>菜单3</item>
+        <item>菜单4</item>
+        <item>菜单5</item>
+        <item>菜单6</item>
+        <item>菜单7</item>
+    </array>
+</resources>
