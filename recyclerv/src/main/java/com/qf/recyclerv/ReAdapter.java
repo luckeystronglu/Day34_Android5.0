@@ -30,12 +30,26 @@ public class ReAdapter extends SwipeMenuAdapter<ReAdapter.MyViewHolder> {
         this.notifyDataSetChanged();
     }
 
+    //移动item的方法
+    public void moveItem(int fromPosition,int toPosition){
+        String data = this.list.remove(fromPosition);
+        this.list.add(toPosition,data);
+        this.notifyItemMoved(fromPosition,toPosition);
+    }
+
+    //移除item的方法
+    public void remove(int position){
+        this.list.remove(position);
+        this.notifyItemRemoved(position);
+    }
+
 //    @Override
 //    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        View inflate = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
 //        return new MyViewHolder(inflate);
 //    }
 
+    //SwipeMenuAdapter需要重写的2个方法
     @Override
     public View onCreateContentView(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
