@@ -2,6 +2,7 @@ package com.qf.recyclerv;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements OnItemMoveListene
     private SwipeMenuRecyclerView rv;
     private ReAdapter adapter;
     private List<String> datas;
+
+    //下拉刷新
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,39 @@ public class MainActivity extends AppCompatActivity implements OnItemMoveListene
         }
         adapter.setDatas(datas);
 
+        //类似viewpage,可以一次滑动很多页
+        //rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+//        new LinearSnapHelper().attachToRecyclerView(rv);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeFresh);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.RED);
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("print", "------>开始刷新，加载数据");
+
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        //数据加载完成
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //关闭刷新
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
 
     }
 
